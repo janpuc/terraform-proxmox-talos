@@ -66,3 +66,27 @@ resource "talos_cluster_kubeconfig" "this" {
   client_configuration = data.talos_client_configuration.this.client_configuration
   node                 = var.network.kube_vip
 }
+
+data "http" "cluster_health" {
+  url = talos_cluster_kubeconfig.this.kubernetes_client_configuration.host
+
+  insecure = true
+
+  request_headers = {
+    Accept = "application/json"
+  }
+
+  retry {
+    attempts = 20
+    min_delay_ms = 60 * 1000 # Retry every minute
+  }
+
+  lifecycle {
+    postcondition {
+      condition     = contains([401], self.status_code)
+      error_message = "Cluster is not ready."
+    }
+  }
+
+  depends_on = [talos_cluster_kubeconfig.this]
+}
