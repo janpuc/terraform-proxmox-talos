@@ -77,7 +77,7 @@ data "http" "cluster_health" {
   }
 
   retry {
-    attempts = 20
+    attempts     = 20
     min_delay_ms = 60 * 1000 # Retry every minute
   }
 
