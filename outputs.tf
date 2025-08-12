@@ -1,3 +1,22 @@
+output "host" {
+  value = talos_cluster_kubeconfig.this.kubernetes_client_configuration.host
+}
+
+output "client_certificate" {
+  value     = talos_machine_secrets.this.client_configuration.client_certificate
+  sensitive = true
+}
+
+output "client_key" {
+  value     = talos_machine_secrets.this.client_configuration.client_key
+  sensitive = true
+}
+
+output "cluster_ca_certificate" {
+  value     = talos_machine_secrets.this.client_configuration.ca_certificate
+  sensitive = true
+}
+
 output "talosconfig" {
   value = {
     context   = var.cluster.name

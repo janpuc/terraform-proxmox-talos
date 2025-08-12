@@ -314,6 +314,22 @@ Default:
 
 The following outputs are exported:
 
+### <a name="output_client_certificate"></a> [client\_certificate](#output\_client\_certificate)
+
+Description: n/a
+
+### <a name="output_client_key"></a> [client\_key](#output\_client\_key)
+
+Description: n/a
+
+### <a name="output_cluster_ca_certificate"></a> [cluster\_ca\_certificate](#output\_cluster\_ca\_certificate)
+
+Description: n/a
+
+### <a name="output_host"></a> [host](#output\_host)
+
+Description: n/a
+
 ### <a name="output_kubeconfig"></a> [kubeconfig](#output\_kubeconfig)
 
 Description: n/a
