@@ -70,3 +70,7 @@ output "kubeconfig" {
   }
   sensitive = true
 }
+
+output "debug" {
+  value = data.helm_template.talos_ccm.manifest
+}
