@@ -1,0 +1,14 @@
+transformations:
+  %{~ for node_group in node_groups ~}
+  %{~ if node_group != "control-plane" ~}
+  - name: ${node_group}
+    nodeSelector:
+      - matchExpressions:
+          - key: hostname
+            operator: Regexp
+            values:
+              - ^${cluster_name}-${node_group}-.+$
+    labels:
+      node-role.kubernetes.io/${node_group}: ""
+  %{ endif }
+  %{~ endfor ~}

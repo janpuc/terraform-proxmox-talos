@@ -13,8 +13,9 @@ machine:
   %{endif}
   kubelet:
     image: "ghcr.io/siderolabs/kubelet:v${kubernetes_version}"
-    # extraArgs:
-    #   cloud-provider: external
+    extraArgs:
+      cloud-provider: external
+      rotate-server-certificates: true
     clusterDNS:
       - "${cidrhost(service_subnet, 10)}"
     nodeIP:
@@ -79,7 +80,7 @@ cluster:
     advertisedSubnets: ["${vm_subnet}"]
     listenSubnets: ["${vm_subnet}"]
   %{ endif }
-  # externalCloudProvider:
-  #   enabled: true
+  externalCloudProvider:
+    enabled: true
   inlineManifests:
     ${indent(4, yamlencode(inline_manifests))}

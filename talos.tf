@@ -27,6 +27,10 @@ data "talos_machine_configuration" "this" {
           contents = templatefile("${path.module}/templates/cilium-install.yaml.tftpl", {
             cilium_values = yamlencode(var.cilium_values)
           })
+        },
+        {
+          name     = "talos-ccm"
+          contents = data.helm_template.talos_ccm.manifest
         }
       ]
     }),
