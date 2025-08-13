@@ -7,7 +7,7 @@ transformations:
           - key: hostname
             operator: Regexp
             values:
-              - ^${node_group}-.+$
+              - ^${cluster_name}-${node_group}-.+$
     labels:
       node-role.kubernetes.io/${node_group}: ""
   %{ endif }

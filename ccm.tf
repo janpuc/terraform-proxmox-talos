@@ -5,7 +5,8 @@ data "helm_template" "talos_ccm" {
 
   values = [
     templatefile("${path.module}/templates/talos-ccm.yaml.tftpl", {
-      node_groups = compact([ 
+      cluster_name = var.cluster.name
+      node_groups  = compact([ 
         for ng, ng_config in local.all_ng_map : "${ng}"
       ])
     })
