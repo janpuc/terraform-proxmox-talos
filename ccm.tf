@@ -5,9 +5,9 @@ data "helm_template" "proxmox_ccm" {
 
   values = [
     templatefile("${path.module}/templates/talos-ccm.yaml.tftpl", {
-      node_groups = [ 
+      node_groups = compact([ 
         for ng, ng_config in local.all_ng_map : "${ng}"
-      ]
+      ])
     })
   ]
 }
