@@ -1,14 +1,14 @@
 transformations:
-  %{~ for node_group in node_groups ~}
-  %{~ if node_group != "control-plane" ~}
-  - name: ${node_group}
+  %{~ for ng, in ngs ~}
+  %{~ if ng != "control-plane" ~}
+  - name: ${ng}
     nodeSelector:
       - matchExpressions:
           - key: hostname
             operator: Regexp
             values:
-              - ^${node_group}-.+$
+              - ^${ng}-.+$
     labels:
-      node-role.kubernetes.io/${node_group}: ""
+      node-role.kubernetes.io/${ng}: ""
   %{ endif }
   %{~ endfor ~}
