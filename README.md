@@ -2,6 +2,8 @@
 
 The following requirements are needed by this module:
 
+- <a name="requirement_helm"></a> [helm](#requirement\_helm) (~>3.0)
+
 - <a name="requirement_proxmox"></a> [proxmox](#requirement\_proxmox) (~>0.80)
 
 - <a name="requirement_talos"></a> [talos](#requirement\_talos) (0.9.0-alpha.0)
@@ -9,6 +11,8 @@ The following requirements are needed by this module:
 ## Providers
 
 The following providers are used by this module:
+
+- <a name="provider_helm"></a> [helm](#provider\_helm) (~>3.0)
 
 - <a name="provider_http"></a> [http](#provider\_http)
 
@@ -34,6 +38,7 @@ The following resources are used by this module:
 - [talos_machine_bootstrap.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/resources/machine_bootstrap) (resource)
 - [talos_machine_configuration_apply.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/resources/machine_configuration_apply) (resource)
 - [talos_machine_secrets.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/resources/machine_secrets) (resource)
+- [helm_template.talos_ccm](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/data-sources/template) (data source)
 - [http_http.cluster_health](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http) (data source)
 - [talos_client_configuration.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/data-sources/client_configuration) (data source)
 - [talos_image_factory_extensions_versions.all_nodes](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/data-sources/image_factory_extensions_versions) (data source)
@@ -59,6 +64,7 @@ Type:
 object({
     name               = string
     talos_version      = optional(string, "1.10.6")
+    talos_ccm_version  = optional(string, "0.5.0")
     kubernetes_version = optional(string, "1.33.3")
   })
 ```

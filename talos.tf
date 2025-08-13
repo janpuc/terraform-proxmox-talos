@@ -29,7 +29,7 @@ data "talos_machine_configuration" "this" {
           })
         },
         {
-          name = "talos-ccm"
+          name     = "talos-ccm"
           contents = data.helm_template.talos_ccm.manifest
         }
       ]
