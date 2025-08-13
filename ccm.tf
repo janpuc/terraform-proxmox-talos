@@ -1,4 +1,4 @@
-data "helm_template" "proxmox_ccm" {
+data "helm_template" "talos_ccm" {
   chart = "oci://ghcr.io/siderolabs/charts/talos-cloud-controller-manager:${var.cluster.talos_ccm_version}"
   name  = "talos-cloud-controller-manager"
   namespace = "kube-system"
