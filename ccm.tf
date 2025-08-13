@@ -1,0 +1,11 @@
+data "helm_template" "proxmox_ccm" {
+  chart = "oci://ghcr.io/siderolabs/charts/talos-cloud-controller-manager:${var.cluster.talos_ccm_version}"
+  name  = "talos-cloud-controller-manager"
+  namespace = "kube-system"
+
+  values = [
+    templatefile("${path.module}/templates/talos-ccm.yaml.tftpl", {
+      node_groups = local.all_nodes_config
+    })
+  ]
+}
