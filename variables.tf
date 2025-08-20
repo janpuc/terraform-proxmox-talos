@@ -282,6 +282,24 @@ variable "cilium_values" {
 
     operator = {
       replicas = 1
+      tolerations = [
+        {
+          key = "node-role.kubernetes.io/control-plane"
+          operator = "Exists"
+        },
+        {
+          key = "node-role.kubernetes.io/master"
+          operator = "Exists"
+        },
+        {
+          key = "node.kubernetes.io/not-ready"
+          operator = "Exists"
+        },
+        {
+          key = "node.cloudprovider.kubernetes.io/uninitialized"
+          operator = "Exists"
+        },
+      ]
     }
 
     securityContext = {
