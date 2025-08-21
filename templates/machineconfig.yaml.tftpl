@@ -1,5 +1,9 @@
 version: v1alpha1
 machine:
+  nodeLabels:
+    node.cloudprovider.kubernetes.io/platform: proxmox
+    topology.kubernetes.io/region: ${proxmox_region}
+    topology.kubernetes.io/zone: ${proxmox_zone}
   install:
     wipe: true
     disk: /dev/sda

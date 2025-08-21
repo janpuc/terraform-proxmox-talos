@@ -13,6 +13,8 @@ data "talos_machine_configuration" "this" {
     templatefile("${path.module}/templates/machineconfig.yaml.tftpl", {
       hostname           = each.key,
       type               = each.value.type,
+      proxmox_region     = var.proxmox.cluster_name
+      proxmox_zone       = var.proxmox.node_name
       kernel_modules     = try(each.value.image.kernel_modules, null)
       sysctls            = try(each.value.image.sysctls, null)
       kubernetes_version = var.cluster.kubernetes_version,

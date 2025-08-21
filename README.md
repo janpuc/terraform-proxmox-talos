@@ -326,6 +326,7 @@ Type:
 
 ```hcl
 object({
+    cluster_name  = string
     node_name     = string
     iso_datastore = string
     datastore     = string
@@ -336,6 +337,7 @@ Default:
 
 ```json
 {
+  "cluster_name": "",
   "datastore": "local-lvm",
   "iso_datastore": "local",
   "node_name": "proxmox"

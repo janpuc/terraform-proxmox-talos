@@ -1,11 +1,13 @@
 variable "proxmox" {
   description = "Proxmox confugration."
   type = object({
+    cluster_name  = string
     node_name     = string
     iso_datastore = string
     datastore     = string
   })
   default = {
+    cluster_name  = ""
     node_name     = "proxmox"
     iso_datastore = "local"
     datastore     = "local-lvm"
