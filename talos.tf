@@ -23,6 +23,10 @@ data "talos_machine_configuration" "this" {
       kube_vip           = var.network.kube_vip,
       inline_manifests = [
         {
+          name     = "gateway-api-crds"
+          contents = data.helm_template.gateway_api_crds.manifest
+        },
+        {
           name = "cilium-install"
           contents = templatefile("${path.module}/templates/cilium-install.yaml.tftpl", {
             cilium_values = yamlencode(var.cilium_values)

@@ -38,6 +38,7 @@ The following resources are used by this module:
 - [talos_machine_bootstrap.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/resources/machine_bootstrap) (resource)
 - [talos_machine_configuration_apply.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/resources/machine_configuration_apply) (resource)
 - [talos_machine_secrets.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/resources/machine_secrets) (resource)
+- [helm_template.gateway_api_crds](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/data-sources/template) (data source)
 - [helm_template.talos_ccm](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/data-sources/template) (data source)
 - [http_http.cluster_health](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http) (data source)
 - [talos_client_configuration.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/data-sources/client_configuration) (data source)
@@ -66,6 +67,7 @@ object({
     talos_version      = optional(string, "1.10.6")
     talos_ccm_version  = optional(string, "0.5.0")
     kubernetes_version = optional(string, "1.33.3")
+    gateway_api_crds_version = optional(string, "1.5.0")
   })
 ```
 
@@ -179,6 +181,9 @@ Default:
   "externalIPs": {
     "enabled": true
   },
+  "gatewayAPI": {
+    "enabled": true
+  },
   "hubble": {
     "tls": {
       "auto": {
@@ -200,7 +205,25 @@ Default:
     "enabled": true
   },
   "operator": {
-    "replicas": 1
+    "replicas": 1,
+    "tolerations": [
+      {
+        "key": "node-role.kubernetes.io/control-plane",
+        "operator": "Exists"
+      },
+      {
+        "key": "node-role.kubernetes.io/master",
+        "operator": "Exists"
+      },
+      {
+        "key": "node.kubernetes.io/not-ready",
+        "operator": "Exists"
+      },
+      {
+        "key": "node.cloudprovider.kubernetes.io/uninitialized",
+        "operator": "Exists"
+      }
+    ]
   },
   "rollOutCiliumPods": true,
   "routingMode": "tunnel",
