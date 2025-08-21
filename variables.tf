@@ -15,10 +15,10 @@ variable "proxmox" {
 variable "cluster" {
   description = "Cluster configuration."
   type = object({
-    name               = string
-    talos_version      = optional(string, "1.10.6")
-    talos_ccm_version  = optional(string, "0.5.0")
-    kubernetes_version = optional(string, "1.33.3")
+    name                     = string
+    talos_version            = optional(string, "1.10.6")
+    talos_ccm_version        = optional(string, "0.5.0")
+    kubernetes_version       = optional(string, "1.33.3")
     gateway_api_crds_version = optional(string, "1.5.0")
   })
 }
@@ -289,19 +289,19 @@ variable "cilium_values" {
       replicas = 1
       tolerations = [
         {
-          key = "node-role.kubernetes.io/control-plane"
+          key      = "node-role.kubernetes.io/control-plane"
           operator = "Exists"
         },
         {
-          key = "node-role.kubernetes.io/master"
+          key      = "node-role.kubernetes.io/master"
           operator = "Exists"
         },
         {
-          key = "node.kubernetes.io/not-ready"
+          key      = "node.kubernetes.io/not-ready"
           operator = "Exists"
         },
         {
-          key = "node.cloudprovider.kubernetes.io/uninitialized"
+          key      = "node.cloudprovider.kubernetes.io/uninitialized"
           operator = "Exists"
         },
       ]
