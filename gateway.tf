@@ -3,12 +3,12 @@ data "helm_template" "gateway_api_crds" {
   name      = "gateway-api-crds"
   namespace = "kube-system"
 
-  values = [{
+  values = [yamlencode({
     crds = {
       gatewayAPI = {
         enabled = true
         channel = "experimental"
       }
     }
-  }]
+  })]
 }
