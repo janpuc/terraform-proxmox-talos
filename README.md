@@ -63,10 +63,10 @@ Type:
 
 ```hcl
 object({
-    name               = string
-    talos_version      = optional(string, "1.10.6")
-    talos_ccm_version  = optional(string, "0.5.0")
-    kubernetes_version = optional(string, "1.33.3")
+    name                     = string
+    talos_version            = optional(string, "1.10.6")
+    talos_ccm_version        = optional(string, "0.5.0")
+    kubernetes_version       = optional(string, "1.33.3")
     gateway_api_crds_version = optional(string, "1.5.0")
   })
 ```
