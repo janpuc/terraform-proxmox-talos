@@ -46,7 +46,7 @@ variable "network" {
   })
 
   validation {
-    condition     = var.network.vlan_id == null || (var.network.vlan_id >= 1 && var.network.vlan_id <= 4094)
+    condition     = var.network.vlan_id == null || (try(var.network.vlan_id, 0) >= 1 && try(var.network.vlan_id, 0) <= 4094)
     error_message = "VLAN ID must be between 1-4094 or null."
   }
 }
