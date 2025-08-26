@@ -18,7 +18,8 @@ resource "proxmox_virtual_environment_vm" "cluster_node" {
   }
 
   tpm_state {
-    version = "v2.0"
+    datastore_id = var.proxmox.datastore
+    version      = "v2.0"
   }
 
   boot_order = ["scsi0", "ide3"]
