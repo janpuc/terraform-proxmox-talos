@@ -18,10 +18,12 @@ variable "cluster" {
   description = "Cluster configuration."
   type = object({
     name                     = string
+    id                       = optional(number, 1)
     talos_version            = optional(string, "1.10.6")
     talos_ccm_version        = optional(string, "0.5.0")
     kubernetes_version       = optional(string, "1.33.3")
     gateway_api_crds_version = optional(string, "1.5.0")
+    multi_cluster            = optional(bool, false)
   })
 }
 
@@ -235,101 +237,5 @@ variable "node_groups" {
       for group_name, group in var.node_groups : group.disk.size >= 10
     ])
     error_message = "Disk size must be at least 10GB in all node groups."
-  }
-}
-
-variable "cilium_values" {
-  type        = any
-  description = "A map of configuration values for Cilium."
-  default = {
-    kubeProxyReplacement = true
-    rollOutCiliumPods    = true
-
-    k8sServiceHost = "localhost"
-    k8sServicePort = 7445
-
-    routingMode    = "tunnel"
-    tunnelProtocol = "vxlan"
-
-    k8sClientRateLimit = {
-      qps   = 50
-      burst = 100
-    }
-
-    cgroup = {
-      hostRoot = "/sys/fs/cgroup"
-      autoMount = {
-        enabled = false
-      }
-    }
-
-    externalIPs = {
-      enabled = true
-    }
-
-    gatewayAPI = {
-      enabled = true
-    }
-
-    l2announcements = {
-      enabled = true
-    }
-
-    ipam = {
-      mode = "kubernetes"
-    }
-
-    hubble = {
-      tls = {
-        auto = {
-          method = "cronJob"
-        }
-      }
-    }
-
-    operator = {
-      replicas = 1
-      tolerations = [
-        {
-          key      = "node-role.kubernetes.io/control-plane"
-          operator = "Exists"
-        },
-        {
-          key      = "node-role.kubernetes.io/master"
-          operator = "Exists"
-        },
-        {
-          key      = "node.kubernetes.io/not-ready"
-          operator = "Exists"
-        },
-        {
-          key      = "node.cloudprovider.kubernetes.io/uninitialized"
-          operator = "Exists"
-        },
-      ]
-    }
-
-    securityContext = {
-      capabilities = {
-        ciliumAgent = [
-          "CHOWN",
-          "KILL",
-          "NET_ADMIN",
-          "NET_RAW",
-          "IPC_LOCK",
-          "SYS_ADMIN",
-          "SYS_RESOURCE",
-          "DAC_OVERRIDE",
-          "FOWNER",
-          "SETGID",
-          "SETUID"
-        ]
-        cleanCiliumState = [
-          "NET_ADMIN",
-          "SYS_ADMIN",
-          "SYS_RESOURCE"
-        ]
-      }
-    }
   }
 }
