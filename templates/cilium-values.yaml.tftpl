@@ -37,7 +37,7 @@ hubble:
     auto:
       method: cronJob
 
-ipv4NativeRoutingCIDR: ${pod_network}
+ipv4NativeRoutingCIDR: ${pod_subnet}
 
 %{~ if multi_cluster == true ~}
 clusterMesh:
