@@ -4,7 +4,7 @@ data "helm_template" "talos_ccm" {
   namespace = "kube-system"
 
   values = [
-    templatefile("${path.module}/templates/talos-ccm.yaml.tftpl", {
+    templatefile("${path.module}/templates/talos-ccm-values.yaml.tftpl", {
       cluster_name = var.cluster.name
       node_groups = compact([
         for ng, ng_config in local.all_ng_map : "${ng}"
