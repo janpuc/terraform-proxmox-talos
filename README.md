@@ -70,8 +70,8 @@ object({
     kubernetes_version       = optional(string, "1.33.3")
     gateway_api_crds_version = optional(string, "1.5.0")
     multi_cluster            = optional(bool, false)
-    cilium_ca_crt            = optional(string, "")
-    cilium_ca_key            = optional(string, "")
+    cilium_ca_crt            = optional(string, "") # Has to be Base64 encoded
+    cilium_ca_key            = optional(string, "") # Has to be Base64 encoded
   })
 ```
 
