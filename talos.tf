@@ -29,6 +29,13 @@ data "talos_machine_configuration" "this" {
           contents = data.helm_template.gateway_api_crds.manifest
         },
         {
+          name = "cilium-ca-secret"
+          contents = templatefile("${path.module}/templates/cilium-ca-secret.yaml.tftpl", {
+            ca_cert = var.cluster.cilium_ca_crt,
+            ca_key  = var.cluster.cilium_ca_key
+          })
+        },
+        {
           name = "cilium-install"
           contents = templatefile("${path.module}/templates/cilium-install.yaml.tftpl", {
             cilium_values = templatefile("${path.module}/templates/cilium-values.yaml.tftpl", {
@@ -36,8 +43,6 @@ data "talos_machine_configuration" "this" {
               cluster_name  = var.cluster.name,
               pod_subnet    = var.network.subnets.pod,
               multi_cluster = var.cluster.multi_cluster,
-              ca_cert       = var.cluster.cilium_ca_crt,
-              ca_key        = var.cluster.cilium_ca_key
             })
           })
         },
