@@ -18,6 +18,7 @@ machine:
     image: "ghcr.io/siderolabs/kubelet:v${kubernetes_version}"
     extraArgs:
       cloud-provider: external
+      rotate-server-certificates: true
     clusterDNS:
       - "${cidrhost(service_subnet, 10)}"
     nodeIP:
