@@ -64,10 +64,14 @@ Type:
 ```hcl
 object({
     name                     = string
+    id                       = optional(number, 1)
     talos_version            = optional(string, "1.10.6")
     talos_ccm_version        = optional(string, "0.5.0")
     kubernetes_version       = optional(string, "1.33.3")
     gateway_api_crds_version = optional(string, "1.5.0")
+    multi_cluster            = optional(bool, false)
+    cilium_ca_crt            = optional(string, "") # Has to be Base64 encoded
+    cilium_ca_key            = optional(string, "") # Has to be Base64 encoded
   })
 ```
 
@@ -161,97 +165,6 @@ object({
 ## Optional Inputs
 
 The following input variables are optional (have default values):
-
-### <a name="input_cilium_values"></a> [cilium\_values](#input\_cilium\_values)
-
-Description: A map of configuration values for Cilium.
-
-Type: `any`
-
-Default:
-
-```json
-{
-  "cgroup": {
-    "autoMount": {
-      "enabled": false
-    },
-    "hostRoot": "/sys/fs/cgroup"
-  },
-  "externalIPs": {
-    "enabled": true
-  },
-  "gatewayAPI": {
-    "enabled": true
-  },
-  "hubble": {
-    "tls": {
-      "auto": {
-        "method": "cronJob"
-      }
-    }
-  },
-  "ipam": {
-    "mode": "kubernetes"
-  },
-  "k8sClientRateLimit": {
-    "burst": 100,
-    "qps": 50
-  },
-  "k8sServiceHost": "localhost",
-  "k8sServicePort": 7445,
-  "kubeProxyReplacement": true,
-  "l2announcements": {
-    "enabled": true
-  },
-  "operator": {
-    "replicas": 1,
-    "tolerations": [
-      {
-        "key": "node-role.kubernetes.io/control-plane",
-        "operator": "Exists"
-      },
-      {
-        "key": "node-role.kubernetes.io/master",
-        "operator": "Exists"
-      },
-      {
-        "key": "node.kubernetes.io/not-ready",
-        "operator": "Exists"
-      },
-      {
-        "key": "node.cloudprovider.kubernetes.io/uninitialized",
-        "operator": "Exists"
-      }
-    ]
-  },
-  "rollOutCiliumPods": true,
-  "routingMode": "tunnel",
-  "securityContext": {
-    "capabilities": {
-      "ciliumAgent": [
-        "CHOWN",
-        "KILL",
-        "NET_ADMIN",
-        "NET_RAW",
-        "IPC_LOCK",
-        "SYS_ADMIN",
-        "SYS_RESOURCE",
-        "DAC_OVERRIDE",
-        "FOWNER",
-        "SETGID",
-        "SETUID"
-      ],
-      "cleanCiliumState": [
-        "NET_ADMIN",
-        "SYS_ADMIN",
-        "SYS_RESOURCE"
-      ]
-    }
-  },
-  "tunnelProtocol": "vxlan"
-}
-```
 
 ### <a name="input_node_groups"></a> [node\_groups](#input\_node\_groups)
 

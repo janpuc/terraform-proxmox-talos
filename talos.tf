@@ -35,7 +35,9 @@ data "talos_machine_configuration" "this" {
               cluster_id    = var.cluster.id,
               cluster_name  = var.cluster.name,
               pod_subnet    = var.network.subnets.pod,
-              multi_cluster = var.cluster.multi_cluster
+              multi_cluster = var.cluster.multi_cluster,
+              ca_cert       = var.cluster.cilium_ca_crt,
+              ca_key        = var.cluster.cilium_ca_key
             })
           })
         },
