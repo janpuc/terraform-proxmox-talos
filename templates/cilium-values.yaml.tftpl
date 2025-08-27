@@ -47,13 +47,6 @@ agents:
     clusterMeshPort: 7445
 %{endif}
 
-%{~ if ca_cert != "" && ca_key != "" ~}
-tls:
-  ca:
-    cert: ${ca_cert}
-    key: ${ca_key}
-%{endif}
-
 operator:
   replicas: 1
   tolerations:
