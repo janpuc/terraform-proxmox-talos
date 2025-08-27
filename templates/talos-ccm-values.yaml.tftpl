@@ -1,3 +1,6 @@
+enabledControllers:
+  - cloud-node
+  - node-csr-approval
 transformations:
   %{~ for node_group in node_groups ~}
   %{~ if node_group != "control-plane" ~}
