@@ -39,12 +39,28 @@ hubble:
 
 ipv4NativeRoutingCIDR: ${pod_subnet}
 
-%{~ if multi_cluster == true ~}
-clusterMesh:
-  enabled: true
-agents:
+%{~ if mesh_api_lb != "" && remote_clusters != null ~}
+clustermesh:
+  useAPIServer: true
+  enableEndpointSliceSynchronization: false # TODO: Later
+  enableMCSAPISupport: false # TODO: Later
   config:
-    clusterMeshPort: 7445
+    enabled: true
+    clusters:
+      %{~ for cluster, ips in remote_clusters ~}
+      - name: ${cluster}
+        ips:
+          %{~ for ip in ips ~}
+          - ${ip}
+          %{~ endfor ~}
+        port: 2379
+      %{~ endfor ~}
+
+  apiserver:
+    service:
+      type: LoadBalancer
+      labels:
+        cluster-mesh-lb: "true"
 %{endif}
 
 %{~ if ca_cert != "" && ca_key != "" ~}

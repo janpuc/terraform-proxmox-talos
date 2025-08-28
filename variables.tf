@@ -26,6 +26,17 @@ variable "cluster" {
     multi_cluster            = optional(bool, false)
     cilium_ca_crt            = optional(string, "") # Has to be Base64 encoded
     cilium_ca_key            = optional(string, "") # Has to be Base64 encoded
+    multi_cluster_configuration = optional(object({
+      mesh_api_lb = optional(string, "")
+      ## Remote clusters in format `name = ["ip1", "ip2"]`.
+      ## IPs are LoadBalancer/ClusterIPs to access Mesh Apiserver.
+      ##
+      ## Example:
+      # clusters = {
+      #  cluster-2 = ["192.168.10.2", "192.168.10.3"]
+      # }
+      clusters = optional(map(list(string)), null)
+    }), null)
   })
 }
 

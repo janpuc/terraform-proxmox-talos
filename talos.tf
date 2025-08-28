@@ -32,13 +32,20 @@ data "talos_machine_configuration" "this" {
           name = "cilium-install"
           contents = templatefile("${path.module}/templates/cilium-install.yaml.tftpl", {
             cilium_values = templatefile("${path.module}/templates/cilium-values.yaml.tftpl", {
-              cluster_id    = var.cluster.id,
-              cluster_name  = var.cluster.name,
-              pod_subnet    = var.network.subnets.pod,
-              multi_cluster = var.cluster.multi_cluster,
-              ca_cert       = var.cluster.cilium_ca_crt,
-              ca_key        = var.cluster.cilium_ca_key
+              cluster_id      = var.cluster.id,
+              cluster_name    = var.cluster.name,
+              pod_subnet      = var.network.subnets.pod,
+              ca_cert         = var.cluster.cilium_ca_crt,
+              ca_key          = var.cluster.cilium_ca_key,
+              mesh_api_lb     = try(var.cluster.multi_cluster_configuration.mesh_api_lb, "")
+              remote_clusters = try(var.cluster.multi_cluster_configuration.clusters, null)
             })
+          })
+        },
+        {
+          name = "cilium-default-resources"
+          contents = templatefile("${path.module}/templates/cilium-default-resources.yaml.tftpl", {
+            mesh_api_lb = try(var.cluster.multi_cluster_configuration.mesh_api_lb, "")
           })
         },
         {
