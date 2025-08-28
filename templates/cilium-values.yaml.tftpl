@@ -40,17 +40,10 @@ hubble:
 ipv4NativeRoutingCIDR: ${pod_subnet}
 
 %{~ if mesh_api_lb != "" && remote_clusters != null ~}
-clusterMesh:
-  enabled: true
-agents:
-  config:
-    clusterMeshPort: 7445
-
 clustermesh:
   useAPIServer: true
   enableEndpointSliceSynchronization: false # TODO: Later
   enableMCSAPISupport: false # TODO: Later
-  annotations: {}
   config:
     enabled: true
     clusters:
