@@ -39,7 +39,7 @@ hubble:
 
 ipv4NativeRoutingCIDR: ${pod_subnet}
 
-%{~ if mesh_api_lb != "" && clusters != null ~}
+%{~ if mesh_api_lb != "" && remote_clusters != null ~}
 clusterMesh:
   enabled: true
 agents:
