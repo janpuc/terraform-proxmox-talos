@@ -54,13 +54,14 @@ clustermesh:
   config:
     enabled: true
     clusters:
-      %{ for cluster, ips in remote_clusters }
+      %{~ for cluster, ips in remote_clusters ~}
       - name: ${cluster}
         ips:
-          %{ for ip in ips }
+          %{~ for ip in ips ~}
           - ${ip}
-          %{ endfor ~}
-      %{ endfor ~}
+          %{~ endfor ~}
+      %{~ endfor ~}
+
   apiserver:
     service:
       type: LoadBalancer
