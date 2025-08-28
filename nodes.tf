@@ -86,9 +86,10 @@ resource "proxmox_virtual_environment_vm" "cluster_node" {
   dynamic "hostpci" {
     for_each = each.value.hostpci.id != null ? [1] : []
     content {
-      device = "hostpci0"
-      id     = each.value.hostpci.id
-      rombar = true
+      device   = "hostpci0"
+      id       = each.value.hostpci.id
+      rombar   = try(each.value.hostpci.rombar, null)
+      rom_file = try(each.value.hostpci.rom_file, null)
     }
   }
 }
