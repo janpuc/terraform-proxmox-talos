@@ -45,7 +45,7 @@ data "talos_machine_configuration" "this" {
         {
           name = "cilium-default-resources"
           contents = templatefile("${path.module}/templates/cilium-default-resources.yaml.tftpl", {
-            mesh_api_lb = var.cluster.mesh_api_lb
+            mesh_api_lb = try(var.cluster.multi_cluster_configuration.mesh_api_lb, "")
           })
         },
         {
