@@ -1,0 +1,23 @@
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: default
+spec:
+  interfaces:
+  - ^eth[0-9]+
+  externalIPs: true
+  loadBalancerIPs: true
+---
+
+%{~ if mesh_api_lb != "" ~}
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: cluster-mesh-lb
+spec:
+  blocks:
+    - cidr: "${mesh_api_lb}/32"
+  serviceSelector:
+    matchLabels:
+      cluster-mesh-lb: "true"
+%{endif}
