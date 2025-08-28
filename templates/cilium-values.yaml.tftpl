@@ -54,7 +54,7 @@ clustermesh:
   config:
     enabled: true
     clusters:
-      %{ for cluster, ips in clusters }
+      %{ for cluster, ips in remote_clusters }
       - name: ${cluster}
         ips:
           %{ for ip in ips }
