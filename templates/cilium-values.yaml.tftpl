@@ -53,13 +53,14 @@ clustermesh:
           %{~ for ip in ips ~}
           - ${ip}
           %{~ endfor ~}
+        port: 2379
       %{~ endfor ~}
 
   apiserver:
     service:
       type: LoadBalancer
       labels:
-        - cluster-mesh-lb: "true"
+        cluster-mesh-lb: "true"
 %{endif}
 
 %{~ if ca_cert != "" && ca_key != "" ~}
