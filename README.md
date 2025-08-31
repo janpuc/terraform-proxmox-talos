@@ -69,9 +69,19 @@ object({
     talos_ccm_version        = optional(string, "0.5.0")
     kubernetes_version       = optional(string, "1.33.3")
     gateway_api_crds_version = optional(string, "1.5.0")
-    multi_cluster            = optional(bool, false)
     cilium_ca_crt            = optional(string, "") # Has to be Base64 encoded
     cilium_ca_key            = optional(string, "") # Has to be Base64 encoded
+    multi_cluster_configuration = optional(object({
+      mesh_api_lb = optional(string, "")
+      ## Remote clusters in format `name = ["ip1", "ip2"]`.
+      ## IPs are LoadBalancer/ClusterIPs to access Mesh Apiserver.
+      ##
+      ## Example:
+      # clusters = {
+      #  cluster-2 = ["192.168.10.2", "192.168.10.3"]
+      # }
+      clusters = optional(map(list(string)), null)
+    }), null)
   })
 ```
 
@@ -107,7 +117,9 @@ object({
       sysctls        = optional(map(string))
     }), {})
     hostpci = optional(object({
-      id = optional(string)
+      id       = optional(string)
+      rombar   = optional(bool)
+      rom_file = optional(string)
     }), {})
     overrides = optional(map(object({
       cpu = optional(object({
@@ -132,7 +144,9 @@ object({
         sysctls        = optional(map(string))
       }), {})
       hostpci = optional(object({
-        id = optional(string)
+        id       = optional(string)
+        rombar   = optional(bool)
+        rom_file = optional(string)
       }), {})
     })), {})
   })
@@ -198,7 +212,9 @@ map(object({
       sysctls        = optional(map(string))
     }), {})
     hostpci = optional(object({
-      id = optional(string)
+      id       = optional(string)
+      rombar   = optional(bool)
+      rom_file = optional(string)
     }), {})
     overrides = optional(map(object({
       cpu = optional(object({
@@ -223,7 +239,9 @@ map(object({
         sysctls        = optional(map(string))
       }), {})
       hostpci = optional(object({
-        id = optional(string)
+        id       = optional(string)
+        rombar   = optional(bool)
+        rom_file = optional(string)
       }), {})
     })), {})
   }))
