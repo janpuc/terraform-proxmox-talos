@@ -23,6 +23,7 @@ data "talos_machine_configuration" "this" {
       pod_subnet         = var.network.subnets.pod,
       service_subnet     = var.network.subnets.service,
       kube_vip           = var.network.kube_vip,
+      remote_clusters     = try(var.cluster.multi_cluster_configuration.clusters, null),
       inline_manifests = [
         {
           name     = "gateway-api-crds"
@@ -34,10 +35,9 @@ data "talos_machine_configuration" "this" {
             cilium_values = templatefile("${path.module}/templates/cilium-values.yaml.tftpl", {
               cluster_id      = var.cluster.id,
               cluster_name    = var.cluster.name,
-              pod_subnet      = var.network.subnets.pod,
+              k8s_subnet      = var.network.subnets.k8s,
               ca_cert         = var.cluster.cilium_ca_crt,
               ca_key          = var.cluster.cilium_ca_key,
-              mesh_api_lb     = try(var.cluster.multi_cluster_configuration.mesh_api_lb, "")
               remote_clusters = try(var.cluster.multi_cluster_configuration.clusters, null)
             })
           })

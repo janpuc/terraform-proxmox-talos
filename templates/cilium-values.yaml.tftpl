@@ -37,9 +37,9 @@ hubble:
     auto:
       method: cronJob
 
-ipv4NativeRoutingCIDR: ${pod_subnet}
+ipv4NativeRoutingCIDR: ${k8s_subnet}
 
-%{~ if mesh_api_lb != "" && remote_clusters != null ~}
+%{~ if remote_clusters != null ~}
 clustermesh:
   useAPIServer: true
   enableEndpointSliceSynchronization: false # TODO: Later
@@ -47,12 +47,10 @@ clustermesh:
   config:
     enabled: true
     clusters:
-      %{~ for cluster, ips in remote_clusters ~}
-      - name: ${cluster}
+      %{~ for name, config in remote_clusters ~}
+      - name: ${name}
         ips:
-          %{~ for ip in ips ~}
-          - ${ip}
-          %{~ endfor ~}
+          - ${config.mesh_api_lb}
         port: 2379
       %{~ endfor ~}
 
