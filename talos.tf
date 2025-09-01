@@ -56,6 +56,7 @@ data "talos_machine_configuration" "this" {
     }),
     templatefile("${path.module}/templates/tailscale-extension.yaml.tftpl", {
       authkey        = try(var.cluster.multi_cluster_configuration.tailscale_authkey, ""),
+      vm_subnet      = var.network.subnets.vm,
       pod_subnet     = var.network.subnets.pod,
       service_subnet = var.network.subnets.service
     })
