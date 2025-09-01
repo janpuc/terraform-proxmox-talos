@@ -34,7 +34,8 @@ variable "cluster" {
       # clusters = {
       #  cluster-2 = ["192.168.10.2", "192.168.10.3"]
       # }
-      clusters = optional(map(list(string)), null)
+      clusters          = optional(map(list(string)), null)
+      tailscale_authkey = optional(string)
     }), null)
   })
 }
@@ -52,6 +53,7 @@ variable "network" {
       vm      = string
       pod     = optional(string, "10.208.0.0/16")
       service = optional(string, "10.209.0.0/16")
+      full    = optional(string, "10.0.0.0/8")
     })
     vlan_id = optional(number)
     bridge  = optional(string, "vmbr0")

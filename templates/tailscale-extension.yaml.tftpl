@@ -1,0 +1,8 @@
+%{~ if authkey != "" ~}
+apiVersion: v1alpha1
+kind: ExtensionServiceConfig
+name: tailscale
+environment:
+  - TS_AUTHKEY=${authkey}
+  - TS_ROUTES=${pod_subnet},${service_subnet}
+%{endif}

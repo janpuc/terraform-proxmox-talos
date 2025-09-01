@@ -5,7 +5,11 @@ locals {
   )
   talos_version = coalesce("v${var.cluster.talos_version}", local.latest_talos_version)
 
-  default_talos_extensions = sort(["qemu-guest-agent", "iscsi-tools", "util-linux-tools"])
+  default_talos_extensions = sort(
+    try(var.cluster.multi_cluster_configuration.tailscale_authkey, "") == ""
+    ? ["qemu-guest-agent", "iscsi-tools", "util-linux-tools"]
+    : ["qemu-guest-agent", "iscsi-tools", "util-linux-tools", "tailscale"]
+  )
 
   download_amd64_iso = anytrue([for n in local.all_nodes_config : n.cpu.architecture == "amd64" && try(n.image.file_id, "") == null])
   download_arm64_iso = anytrue([for n in local.all_nodes_config : n.cpu.architecture == "arm64" && try(n.image.file_id, "") == null])
