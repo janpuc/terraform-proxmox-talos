@@ -5,4 +5,5 @@ name: tailscale
 environment:
   - TS_AUTHKEY=${authkey}
   - TS_ROUTES=${pod_subnet},${service_subnet}
+  - TS_EXTRA_ARGS=--accept-routes --reset
 %{endif}
