@@ -28,9 +28,6 @@ machine:
     interfaces:
       - interface: "eth0"
         dhcp: true
-        routes:
-          - network: ${vm_subnet}
-            gateway: 0.0.0.0
         %{~ if type == "controlplane" ~}
         vip:
           ip: "${kube_vip}"
