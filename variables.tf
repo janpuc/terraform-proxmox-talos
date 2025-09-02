@@ -22,8 +22,8 @@ variable "cluster" {
     talos_version                    = optional(string, "1.11.0")
     talos_ccm_version                = optional(string, "0.5.0")
     kubernetes_version               = optional(string, "1.34.0")
-    gateway_api_crds_version         = optional(string, "1.5.0")
-    prometheus_operator_crds_version = optional(string, "23.0.0")
+    gateway_api_crds_version         = optional(string, "1.3.0")
+    prometheus_operator_crds_version = optional(string, "0.85.0")
     cilium_ca_crt                    = optional(string, "") # Has to be Base64 encoded
     cilium_ca_key                    = optional(string, "") # Has to be Base64 encoded
     multi_cluster_configuration = optional(object({

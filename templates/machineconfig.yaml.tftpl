@@ -92,5 +92,17 @@ cluster:
   %{ endif }
   externalCloudProvider:
     enabled: true
+  extraManifests:
+    - "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/refs/tags/v${prometheus_operator_crds_version}/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml"
+    - "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/refs/tags/v${prometheus_operator_crds_version}/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml"
+    - "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/refs/tags/v${prometheus_operator_crds_version}/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml"
+    - "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/refs/tags/v${prometheus_operator_crds_version}/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml"
+    - "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/refs/tags/v${prometheus_operator_crds_version}/example/prometheus-operator-crd/monitoring.coreos.com_prometheusagents.yaml"
+    - "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/refs/tags/v${prometheus_operator_crds_version}/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml"
+    - "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/refs/tags/v${prometheus_operator_crds_version}/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
+    - "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/refs/tags/v${prometheus_operator_crds_version}/example/prometheus-operator-crd/monitoring.coreos.com_scrapeconfigs.yaml"
+    - "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/refs/tags/v${prometheus_operator_crds_version}/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml"
+    - "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/refs/tags/v${prometheus_operator_crds_version}/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml"
+    - "https://github.com/kubernetes-sigs/gateway-api/releases/download/v${gateway_api_crds_version}/experimental-install.yaml"
   inlineManifests:
     ${indent(4, yamlencode(inline_manifests))}
