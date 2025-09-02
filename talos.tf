@@ -11,21 +11,21 @@ data "talos_machine_configuration" "this" {
   machine_secrets  = talos_machine_secrets.this.machine_secrets
   config_patches = [
     templatefile("${path.module}/templates/machineconfig.yaml.tftpl", {
-      hostname           = each.key,
-      type               = each.value.type,
-      proxmox_region     = var.proxmox.cluster_name
-      proxmox_zone       = var.proxmox.node_name
-      kernel_modules     = try(each.value.image.kernel_modules, null)
-      sysctls            = try(each.value.image.sysctls, null)
-      kubernetes_version = var.cluster.kubernetes_version,
-      installer_image    = data.talos_image_factory_urls.all_nodes[each.key].urls.installer_secureboot,
-      vm_subnet          = var.network.subnets.vm,
-      pod_subnet         = var.network.subnets.pod,
-      service_subnet     = var.network.subnets.service,
-      kube_vip           = var.network.kube_vip,
-      remote_clusters    = try(var.cluster.multi_cluster_configuration.clusters, null),
+      hostname                    = each.key,
+      type                        = each.value.type,
+      proxmox_region              = var.proxmox.cluster_name
+      proxmox_zone                = var.proxmox.node_name
+      kernel_modules              = try(each.value.image.kernel_modules, null)
+      sysctls                     = try(each.value.image.sysctls, null)
+      kubernetes_version          = var.cluster.kubernetes_version,
+      installer_image             = data.talos_image_factory_urls.all_nodes[each.key].urls.installer_secureboot,
+      vm_subnet                   = var.network.subnets.vm,
+      pod_subnet                  = var.network.subnets.pod,
+      service_subnet              = var.network.subnets.service,
+      kube_vip                    = var.network.kube_vip,
+      remote_clusters             = try(var.cluster.multi_cluster_configuration.clusters, null),
       prometheus_operator_version = var.cluster.prometheus_operator_crds_version,
-      gateway_api_crds_version = var.cluster.gateway_api_crds_version,
+      gateway_api_crds_version    = var.cluster.gateway_api_crds_version,
       inline_manifests = [
         {
           name = "cilium-install"

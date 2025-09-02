@@ -38,8 +38,6 @@ The following resources are used by this module:
 - [talos_machine_bootstrap.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/resources/machine_bootstrap) (resource)
 - [talos_machine_configuration_apply.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/resources/machine_configuration_apply) (resource)
 - [talos_machine_secrets.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/resources/machine_secrets) (resource)
-- [helm_template.gateway_api_crds](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/data-sources/template) (data source)
-- [helm_template.prometheus_operator_crds](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/data-sources/template) (data source)
 - [helm_template.talos_ccm](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/data-sources/template) (data source)
 - [http_http.cluster_health](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http) (data source)
 - [talos_client_configuration.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/data-sources/client_configuration) (data source)
@@ -69,8 +67,8 @@ object({
     talos_version                    = optional(string, "1.11.0")
     talos_ccm_version                = optional(string, "0.5.0")
     kubernetes_version               = optional(string, "1.34.0")
-    gateway_api_crds_version         = optional(string, "1.5.0")
-    prometheus_operator_crds_version = optional(string, "23.0.0")
+    gateway_api_crds_version         = optional(string, "1.3.0")
+    prometheus_operator_crds_version = optional(string, "0.85.0")
     cilium_ca_crt                    = optional(string, "") # Has to be Base64 encoded
     cilium_ca_key                    = optional(string, "") # Has to be Base64 encoded
     multi_cluster_configuration = optional(object({
