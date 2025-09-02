@@ -1,85 +1,15 @@
 kubeProxyReplacement: true
-rollOutCiliumPods: true
-
+externalIPs:
+  enabled: true
 k8sServiceHost: localhost
 k8sServicePort: 7445
-
-routingMode: tunnel
-tunnelProtocol: vxlan
-
-cluster:
-  id : ${cluster_id}
-  name: ${cluster_name}
-
 k8sClientRateLimit: 
   qps: 50
   burst: 100
-
-cgroup:
-  hostRoot: /sys/fs/cgroup
-  autoMount: 
-    enabled: false
-
-externalIPs:
-  enabled: true
-
-gatewayAPI:
-  enabled: true
-
-l2announcements:
-  enabled: true
-
-ipam:
-  mode: kubernetes
-
-hubble:
-  tls:
-    auto:
-      method: cronJob
-
-ipv4NativeRoutingCIDR: ${k8s_subnet}
-
-%{~ if remote_clusters != null ~}
-clustermesh:
-  useAPIServer: true
-  enableEndpointSliceSynchronization: false # TODO: Later
-  enableMCSAPISupport: false # TODO: Later
-  config:
-    enabled: true
-    clusters:
-      %{~ for name, config in remote_clusters ~}
-      - name: ${name}
-        ips:
-          - ${config.mesh_api_lb}
-        port: 2379
-      %{~ endfor ~}
-
-  apiserver:
-    service:
-      type: LoadBalancer
-      labels:
-        cluster-mesh-lb: "true"
-%{endif}
-
-%{~ if ca_cert != "" && ca_key != "" ~}
-tls:
-  ca:
-    cert: ${ca_cert}
-    key: ${ca_key}
-%{endif}
-
-operator:
-  replicas: 1
-  tolerations:
-    - key: node-role.kubernetes.io/control-plane
-      operator: Exists
-    - key: node-role.kubernetes.io/master
-      operator: Exists
-    - key: node.kubernetes.io/not-ready
-      operator: Exists
-    - key: node.cloudprovider.kubernetes.io/uninitialized
-      operator: Exists
-
+cluster:
+  name: ${cluster_name}
+  id: ${cluster_id}
+rollOutCiliumPods: true
 securityContext:
   capabilities:
     ciliumAgent:
@@ -98,3 +28,81 @@ securityContext:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
+l2announcements:
+  enabled: true
+gatewayAPI:
+  enabled: true
+hubble:
+  metrics:
+    enabled: "{dns,drop,tcp,flow,port-distribution,icmp,httpV2:exemplars=true;labelsContext=source_ip\,source_namespace\,source_workload\,destination_ip\,destination_namespace\,destination_workload\,traffic_direction}"
+    serviceMonitor:
+      enabled: true
+  tls:
+    auto:
+      method: cronJob
+  relay:
+    enabled: true
+    prometheus:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+  ui:
+    enabled: true
+ipam:
+  mode: kubernetes
+ipv4NativeRoutingCIDR: ${k8s_subnet}
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+%{~ if ca_cert != "" && ca_key != "" ~}
+tls:
+  ca:
+    cert: ${ca_cert}
+    key: ${ca_key}
+%{endif}
+tunnelProtocol: vxlan
+routingMode: tunnel
+operator:
+  replicas: 1
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+    - key: node-role.kubernetes.io/master
+      operator: Exists
+    - key: node.kubernetes.io/not-ready
+      operator: Exists
+    - key: node.cloudprovider.kubernetes.io/uninitialized
+      operator: Exists
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+%{~ if remote_clusters != null ~}
+clustermesh:
+  useAPIServer: true
+  enableEndpointSliceSynchronization: false # TODO: Later
+  enableMCSAPISupport: false # TODO: Later
+  config:
+    enabled: true
+    clusters:
+      %{~ for name, config in remote_clusters ~}
+      - name: ${name}
+        ips:
+          - ${config.mesh_api_lb}
+        port: 2379
+      %{~ endfor ~}
+  apiserver:
+    service:
+      type: LoadBalancer
+      labels:
+        cluster-mesh-lb: "true"
+  metrics:
+    serviceMonitor:
+      enabled: true
+%{endif}
+cgroup:
+  hostRoot: /sys/fs/cgroup
+  autoMount: 
+    enabled: false
