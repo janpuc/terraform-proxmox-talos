@@ -28,6 +28,13 @@ machine:
     interfaces:
       - interface: "eth0"
         dhcp: true
+        %{~ if remote_clusters != null ~}
+        routes:
+          %{~ for name, config in remote_clusters ~}
+          - network: ${config.k8s_cidr}
+            gateway: ${config.gateway_ip}
+          %{~ endfor ~}
+        %{endif}
         %{~ if type == "controlplane" ~}
         vip:
           ip: "${kube_vip}"

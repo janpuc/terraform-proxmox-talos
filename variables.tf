@@ -27,14 +27,11 @@ variable "cluster" {
     cilium_ca_key            = optional(string, "") # Has to be Base64 encoded
     multi_cluster_configuration = optional(object({
       mesh_api_lb = optional(string, "")
-      ## Remote clusters in format `name = ["ip1", "ip2"]`.
-      ## IPs are LoadBalancer/ClusterIPs to access Mesh Apiserver.
-      ##
-      ## Example:
-      # clusters = {
-      #  cluster-2 = ["192.168.10.2", "192.168.10.3"]
-      # }
-      clusters = optional(map(list(string)), null)
+      clusters = optional(map(object({
+        k8s_cidr    = string
+        gateway_ip  = string
+        mesh_api_lb = string
+      })), null)
     }), null)
   })
 }
@@ -52,6 +49,7 @@ variable "network" {
       vm      = string
       pod     = optional(string, "10.208.0.0/16")
       service = optional(string, "10.209.0.0/16")
+      k8s     = optional(string, "10.208.0.0/15")
     })
     vlan_id = optional(number)
     bridge  = optional(string, "vmbr0")
