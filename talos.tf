@@ -23,8 +23,12 @@ data "talos_machine_configuration" "this" {
       pod_subnet         = var.network.subnets.pod,
       service_subnet     = var.network.subnets.service,
       kube_vip           = var.network.kube_vip,
-      remote_clusters     = try(var.cluster.multi_cluster_configuration.clusters, null),
+      remote_clusters    = try(var.cluster.multi_cluster_configuration.clusters, null),
       inline_manifests = [
+        {
+          name     = "prometheus-operator-crds"
+          contents = data.helm_template.prometheus_operator_crds.manifest
+        },
         {
           name     = "gateway-api-crds"
           contents = data.helm_template.gateway_api_crds.manifest
