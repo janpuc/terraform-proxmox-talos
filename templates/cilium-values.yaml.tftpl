@@ -61,6 +61,7 @@ prometheus:
   enabled: true
   serviceMonitor:
     enabled: true
+
 %{~ if ca_cert != "" && ca_key != "" ~}
 tls:
   ca:
