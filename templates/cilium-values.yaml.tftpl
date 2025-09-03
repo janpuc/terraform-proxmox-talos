@@ -83,7 +83,7 @@ operator:
 clustermesh:
   useAPIServer: true
   enableEndpointSliceSynchronization: false # TODO: Later
-  enableMCSAPISupport: false # TODO: Later
+  enableMCSAPISupport: ${mcsapi_enabled}
   config:
     enabled: true
     clusters:

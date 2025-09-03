@@ -27,7 +27,8 @@ variable "cluster" {
     cilium_ca_crt                    = optional(string, "") # Has to be Base64 encoded
     cilium_ca_key                    = optional(string, "") # Has to be Base64 encoded
     multi_cluster_configuration = optional(object({
-      mesh_api_lb = optional(string, "")
+      mesh_api_lb    = optional(string, "")
+      mcsapi_enabled = optional(bool, false)
       clusters = optional(map(object({
         k8s_cidr    = string
         gateway_ip  = string

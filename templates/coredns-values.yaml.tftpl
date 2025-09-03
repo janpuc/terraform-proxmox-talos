@@ -1,0 +1,53 @@
+image:
+  repository: janpuc/coredns-multicluster
+  tag: v1.12.3
+isClusterService: true
+serviceType: ClusterIP
+service:
+  clusterIP: "${cidrhost(service_subnet, 10)}"
+serviceAccount:
+  create: true
+  name: coredns
+rbac:
+  create: false # We provide our own multi-cluster compatible RBAC
+servers:
+  - zones:
+      - zone: .
+    port: 53
+    plugins:
+      - name: errors
+      - name: health
+        configBlock: |-
+          lameduck 5s
+      - name: ready
+      - name: log
+        parameters: .
+        configBlock: |-
+          class error
+      - name: prometheus
+        parameters: :9153
+      - name: multicluster
+        parameters: clusterset.local
+      - name: kubernetes
+        parameters: cluster.local in-addr.arpa ip6.arpa
+        configBlock: |-
+          pods insecure
+          fallthrough in-addr.arpa ip6.arpa
+          ttl 30
+      - name: forward
+        parameters: . /etc/resolv.conf
+        configBlock: |-
+          max_concurrent 1000
+      - name: cache
+        parameters: 30
+        configBlock: |-
+          disable success cluster.local
+          disable denial cluster.local
+      - name: loop
+      - name: reload
+      - name: loadbalance
+prometheus:
+  service:
+    enabled: true
+  monitor:
+    enabled: true
