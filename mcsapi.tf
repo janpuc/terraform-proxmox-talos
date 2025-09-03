@@ -7,7 +7,7 @@ data "helm_template" "coredns" {
 
   values = [
     templatefile("${path.module}/templates/coredns-values.yaml.tftpl", {
-      service_subnet = var.network.name
+      service_subnet = var.network.subnets.service
     })
   ]
 }
