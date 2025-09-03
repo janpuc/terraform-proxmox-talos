@@ -23,6 +23,7 @@ data "talos_machine_configuration" "this" {
       pod_subnet                       = var.network.subnets.pod,
       service_subnet                   = var.network.subnets.service,
       kube_vip                         = var.network.kube_vip,
+      mcsapi_enabled                   = try(var.cluster.multi_cluster_configuration.mcsapi_enabled, false),
       remote_clusters                  = try(var.cluster.multi_cluster_configuration.clusters, null),
       prometheus_operator_crds_version = var.cluster.prometheus_operator_crds_version,
       gateway_api_crds_version         = var.cluster.gateway_api_crds_version,
@@ -36,6 +37,7 @@ data "talos_machine_configuration" "this" {
               k8s_subnet      = var.network.subnets.k8s,
               ca_cert         = var.cluster.cilium_ca_crt,
               ca_key          = var.cluster.cilium_ca_key,
+              mcsapi_enabled  = try(var.cluster.multi_cluster_configuration.mcsapi_enabled, false),
               remote_clusters = try(var.cluster.multi_cluster_configuration.clusters, null)
             })
           })
@@ -49,6 +51,14 @@ data "talos_machine_configuration" "this" {
         {
           name     = "talos-ccm"
           contents = data.helm_template.talos_ccm.manifest
+        },
+        {
+          name     = "coredns-rbac"
+          contents = try(var.cluster.multi_cluster_configuration.mcsapi_enabled, false) == true ? data.helm_template.coredns.manifest : ""
+        },
+        {
+          name     = "coredns"
+          contents = try(var.cluster.multi_cluster_configuration.mcsapi_enabled, false) == true ? file("${path.module}/templates/coredns-rbac.yaml") : ""
         }
       ]
     }),
