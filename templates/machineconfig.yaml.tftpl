@@ -78,7 +78,7 @@ cluster:
     podSubnets: [${pod_subnet}]
     serviceSubnets: [${service_subnet}]
   %{~ if mcsapi_enabled == true ~}
-  coredns:
+  coreDNS:
     disabled: true
   %{ endif }
   proxy:
