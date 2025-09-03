@@ -110,7 +110,7 @@ cluster:
     - "https://github.com/kubernetes-sigs/gateway-api/releases/download/v${gateway_api_crds_version}/experimental-install.yaml"
     %{~ if mcsapi_enabled == true ~}
     - "https://raw.githubusercontent.com/kubernetes-sigs/mcs-api/refs/tags/v0.3.0/config/crd/multicluster.x-k8s.io_serviceexports.yaml"
-    - "https://raw.githubusercontent.com/kubernetes-sigs/mcs-api/refs/tags/v0.3.0/config/crd/multicluster.x-k8s.io_serviceexports.yaml"
+    - "https://raw.githubusercontent.com/kubernetes-sigs/mcs-api/refs/tags/v0.3.0/config/crd/multicluster.x-k8s.io_serviceimports.yaml"
     %{ endif }
   inlineManifests:
     ${indent(4, yamlencode(inline_manifests))}
