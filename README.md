@@ -38,6 +38,7 @@ The following resources are used by this module:
 - [talos_machine_bootstrap.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/resources/machine_bootstrap) (resource)
 - [talos_machine_configuration_apply.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/resources/machine_configuration_apply) (resource)
 - [talos_machine_secrets.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/resources/machine_secrets) (resource)
+- [helm_template.coredns](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/data-sources/template) (data source)
 - [helm_template.talos_ccm](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/data-sources/template) (data source)
 - [http_http.cluster_health](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http) (data source)
 - [talos_client_configuration.this](https://registry.terraform.io/providers/siderolabs/talos/0.9.0-alpha.0/docs/data-sources/client_configuration) (data source)
@@ -72,7 +73,8 @@ object({
     cilium_ca_crt                    = optional(string, "") # Has to be Base64 encoded
     cilium_ca_key                    = optional(string, "") # Has to be Base64 encoded
     multi_cluster_configuration = optional(object({
-      mesh_api_lb = optional(string, "")
+      mesh_api_lb    = optional(string, "")
+      mcsapi_enabled = optional(bool, false)
       clusters = optional(map(object({
         k8s_cidr    = string
         gateway_ip  = string
