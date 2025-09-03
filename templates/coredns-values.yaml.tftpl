@@ -7,9 +7,8 @@ service:
   clusterIP: "${cidrhost(service_subnet, 10)}"
 serviceAccount:
   create: true
-  name: coredns
 rbac:
-  create: false # We provide our own multi-cluster compatible RBAC
+  create: true
 servers:
   - zones:
       - zone: .
