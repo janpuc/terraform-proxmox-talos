@@ -89,7 +89,7 @@ operator:
 %{~ if remote_clusters != null ~}
 clustermesh:
   useAPIServer: true
-  enableEndpointSliceSynchronization: false # TODO: Later
+  enableEndpointSliceSynchronization: ${mcsapi_enabled}
   enableMCSAPISupport: ${mcsapi_enabled}
   config:
     enabled: true
