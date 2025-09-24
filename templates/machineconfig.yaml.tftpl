@@ -84,6 +84,9 @@ cluster:
   proxy:
     disabled: true
   apiServer:
+    extraArgs:
+      feature-gates: MutatingAdmissionPolicy=true
+      runtime-config: admissionregistration.k8s.io/v1beta1=true
     image: "registry.k8s.io/kube-apiserver:v${kubernetes_version}"
   controllerManager:
     image: "registry.k8s.io/kube-controller-manager:v${kubernetes_version}"
